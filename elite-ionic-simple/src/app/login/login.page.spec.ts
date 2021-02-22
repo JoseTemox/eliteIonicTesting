@@ -17,7 +17,8 @@ describe('LoginPage', () => {
       providers: [
         { provide: NavController, useClass: NavMock },
         { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: AuthService, useClass: AuthMock }
+        { provide: AuthService, useClass: AuthMock },
+
       ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
@@ -130,5 +131,25 @@ describe('LoginPage', () => {
     expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
 
   }));
+  it('if the user has a valid license key in storage then they should be taken straight to the home page', fakeAsync(() => {
+
+    let authProvider = fixture.debugElement.injector.get(AuthService);
+    let navCtrl = fixture.debugElement.injector.get(NavController);
+
+    spyOn(navCtrl, 'navigateRoot');
+    spyOn(authProvider, 'reauthenticate').and.returnValue(Promise.resolve(true));
+
+    component.ngOnInit();
+
+    tick();
+    //console.log(navCtrl.navigateRoot);
+
+    expect(navCtrl.navigateRoot).toHaveBeenCalledWith('/home');
+
+  }));
+
+
+
+
 
 });

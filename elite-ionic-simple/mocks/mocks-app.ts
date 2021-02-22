@@ -1,3 +1,5 @@
+import { promise } from 'protractor';
+
 export class ModulesMock {
 
     public getModules(): Object[] {
@@ -18,5 +20,8 @@ export class ModulesMock {
 export class AuthMock {
 
   public checkKey(key: string): any {}
+  public reauthenticate() {
+    return new Promise(() => {})
+  }
 
 }

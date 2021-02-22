@@ -1,6 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { IonicStorageModule, Storage } from '@ionic/storage';
 
 
 describe('AuthService', () => {
@@ -13,11 +14,12 @@ describe('AuthService', () => {
       ],
 
       providers: [
-          AuthService
+          AuthService,
       ],
 
       imports: [
-          HttpClientTestingModule
+          HttpClientTestingModule,
+          IonicStorageModule.forRoot()
       ]
     });
     service = TestBed.inject(AuthService);
@@ -42,5 +44,33 @@ describe('AuthService', () => {
     // Execute the request using the mockResponse data
     mockReq.flush(mockResponse);
 
-}));
+  }));
+
+  it('reauthenticate should automatically check key if in storage', fakeAsync(inject([AuthService, HttpTestingController], (authService, httpMock) => {
+
+    let mockResponse = '{"isValid": true}';
+
+    spyOn(authService.storage, 'get').and.returnValue(Promise.resolve('abcde-fghi-jklm'));
+
+    authService.reauthenticate();
+
+
+    tick();
+
+    // Expect a request to the URL
+    const mockReq = httpMock.expectOne('http://localhost:8080/api/check');
+
+    // Execute the request using the mockResponse data
+    mockReq.flush(mockResponse);
+
+  })));
+
+
+
+
+
 });
+
+
+
+

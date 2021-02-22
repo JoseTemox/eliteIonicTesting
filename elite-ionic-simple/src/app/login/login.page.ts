@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
+import { AuthService,  } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,17 @@ export class LoginPage implements OnInit {
   constructor(private navCtrl: NavController, private authProvider: AuthService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
+    //  this.authProvider.reauthenticate().then((res) => {
+    //    this.navCtrl.navigateRoot('/home');
+    //  }, (err) => {
+    //    console.log('Maybe next time!');
+    //  });
+
+    this.authProvider.reauthenticate()
+      .then(res => {
+        this.navCtrl.navigateRoot('/home');
+      })
+      .catch( console.warn);
   }
 
   login(){
