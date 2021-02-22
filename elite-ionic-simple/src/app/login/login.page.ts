@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController, LoadingController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  public licenseKey: string = '';
+  public loading: any;
+
+  constructor(private navCtrl: NavController, private authProvider: AuthService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
+  }
+
+  login(){
+
+    this.loadingCtrl.create({
+      message: 'Authenticating...'
+    }).then((overlay) => {
+
+      this.loading = overlay;
+      this.loading.present();
+
+      this.authProvider.checkKey(this.licenseKey).subscribe((res) => {
+
+        this.loading.dismiss().then(() => {
+          this.navCtrl.navigateRoot('/home');
+        });
+
+      }, (err) => {
+        this.loading.dismiss();
+      });
+
+    })
+
   }
 
 }

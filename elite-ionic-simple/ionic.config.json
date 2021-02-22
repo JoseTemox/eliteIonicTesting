@@ -1,5 +1,7 @@
 {
   "name": "elite-ionic-simple",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

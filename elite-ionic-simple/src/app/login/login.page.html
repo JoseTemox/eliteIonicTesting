@@ -4,6 +4,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+
+  <ion-item class="key-input">
+    <ion-input [(ngModel)]="licenseKey" type="text" placeholder="enter license key..."></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" color="light" class="login-button" (click)="login()">
+    <ion-icon slot="start" name="log-in"></ion-icon> Log In
+  </ion-button>
 
 </ion-content>

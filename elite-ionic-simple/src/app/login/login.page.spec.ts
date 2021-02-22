@@ -2,9 +2,10 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { IonicModule, NavController, LoadingController } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
-import { NavMock } from 'mocks/mocks-ionic';
+import { NavMock, LoadingControllerMock } from 'mocks/mocks-ionic';
 import { AuthService } from '../services/auth.service';
 import { of } from 'rxjs';
+import { AuthMock } from 'mocks/mocks-app';
 
 describe('LoginPage', () => {
   let component: LoginPage;

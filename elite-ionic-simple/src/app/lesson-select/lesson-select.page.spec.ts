@@ -24,7 +24,7 @@ describe('LessonSelectPage', () => {
         },
         { provide: NavController, useClass: NavMock },
         { provide: ModulesService, useClass: ModulesMock },
-        
+
       ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();

@@ -7,26 +7,32 @@ describe('Login', () => {
     let homePage: HomePageObject;
     let loginPage: LoginPageObject;
 
-    beforeEach(() => {
+    beforeEach(async () => {
 
         homePage = new HomePageObject();
         loginPage = new LoginPageObject();
-        loginPage.navigateTo();
+        await loginPage.navigateTo();
+		await browser.sleep(100);
+
 
     });
 
-    it('a user should be able to reach the home page by providing a valid license key', () => {
+    it('a user should be able to reach the home page by providing a valid license key', async () => {
 
         let input = loginPage.getKeyInput();
         let loginButton = loginPage.getLoginButton();
 
-        input.sendKeys('abcd-egfh-ijkl-mnop');
+        await input.sendKeys('abcd-egfh-ijkl-mnop');
 
-        loginButton.click();
+        await loginButton.click();
+        await browser.sleep(100);
 
-        browser.wait(protractor.ExpectedConditions.urlContains('home'));
 
-        expect(homePage.getModuleListItems().first().getText()).toContain('Module One');
+        const wait = await browser.wait(protractor.ExpectedConditions.urlContains('home'));
+       // console.log(await homePage.getModuleListItems().first().getText());
+
+
+        expect(await homePage.getModuleListItems().first().getText()).toContain('Module One');
 
     });
 
