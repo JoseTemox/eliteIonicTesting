@@ -1,20 +1,59 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
+import { map } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
 
-@Injectable({
+@Injectable(
+  {
   providedIn: 'root'
-})
+}
+)
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public storage: Storage, private navCtrl: NavController) { }
 
   checkKey(key){
+    this.storage.set('eliteLicenseKey', key);
 
     let body = {
       key: key
     }
 
-    return this.http.post('http://localhost:8080/api/check', body);
+    //return this.http.post('http://localhost:8080/api/check', body);
+    return this.http.post('http://localhost:8080/api/check', body).pipe(map(res => res));
 
+  }
+
+  reauthenticate(){
+
+    return new Promise((resolve, reject) => {
+
+        this.storage.get('eliteLicenseKey').then((key) => {
+
+            if(key !== null){
+
+                this.checkKey(key).subscribe((res) => {
+
+                    if(res){
+                        resolve(true);
+                    } else {
+                        reject(true);
+                    }
+
+                });
+
+            } else {
+                reject(true);
+            }
+
+        })
+
+    });
+  }
+  logout(){
+    this.storage.set('eliteLicenseKey', null).then(() => {
+      this.navCtrl.navigateRoot('/login');
+    })
   }
 }

@@ -1,6 +1,6 @@
 import { HomePageObject } from './home.po';
 import { LessonSelectPageObject } from './lesson-select.po';
-import { browser } from 'protractor';
+import { browser,protractor } from 'protractor';
 
 describe('Home', () => {
 
@@ -8,7 +8,7 @@ describe('Home', () => {
     let lessonSelectPage: LessonSelectPageObject;
 
 	beforeEach(async () => {
-		
+
         homePage = new HomePageObject();
         lessonSelectPage = new LessonSelectPageObject();
 		await homePage.navigateTo();
@@ -19,9 +19,9 @@ describe('Home', () => {
         const numItems = await homePage.getModuleListItems().count();
         //console.log(numItems);
         expect(numItems).toBe(5);
-       
 
-    }); 
+
+    });
 
    it('the list of modules should contain the titles of the modules', async () => {
         const text = await homePage.getModuleListItems().first().getText();
@@ -30,20 +30,27 @@ describe('Home', () => {
       });
 
     it('after selecting a specific module, the user should be able to see a list of available lessons', async () => {
-	
+
         let moduleToTest = await homePage.getModuleListItems().first();
         //console.log(moduleToTest);
 
         await moduleToTest.click();
-        
+
         let valor =   await lessonSelectPage.getLessonListItems().count();
         //console.log(valor);
 		expect(valor).toBeGreaterThan(0);
 
-	});
+    });
+    it('should be able to log out', () => {
 
-	
+        homePage.getLogoutButton().click();
 
-	
+        browser.wait(protractor.ExpectedConditions.not((protractor.ExpectedConditions.urlContains('home'))));
+
+    });
+
+
+
+
 
 });

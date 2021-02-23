@@ -21,6 +21,9 @@ export class HomePageObject {
   getModuleListItems() {
     return element.all(by.deepCss('.module-list ion-item'));
   }
+  getLogoutButton(){
+    return element(by.deepCss('.logout-button'));
+  }
 
 
 

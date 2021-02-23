@@ -3,15 +3,20 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" class="logout-button">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
 	<ion-list class="module-list">
-		<ion-item button (click)="openModule(module.id)" *ngFor="let module of modules">
+		<ion-item button (click)="openModule(module['id'])" *ngFor="let module of modules">
       <!-- {{module['title']}} -->
-      {{module.title}}
+      {{module['title']}}
 
 		</ion-item>
 	</ion-list>

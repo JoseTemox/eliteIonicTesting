@@ -15,6 +15,11 @@ export class LoginPage implements OnInit {
   constructor(private navCtrl: NavController, private authProvider: AuthService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
+    this.authProvider.reauthenticate().then((res) => {
+      this.navCtrl.navigateRoot('/home');
+    }, (err) => {
+      console.log('Maybe next time!');
+    });
   }
 
   login(){
