@@ -5,14 +5,15 @@ export class HomePageObject {
   loginPage = new LoginPageObject();
 
   async navigateTo() {
-    this.loginPage.navigateTo();
+    // this.loginPage.navigateTo();
 
-    let input = this.loginPage.getKeyInput();
-    let loginButton = this.loginPage.getLoginButton();
+    // let input = this.loginPage.getKeyInput();
+    // let loginButton = this.loginPage.getLoginButton();
 
-    input.sendKeys('abcd-egfh-ijkl-mnop');
+    // input.sendKeys('abcd-egfh-ijkl-mnop');
 
-    await loginButton.click();
+    // await loginButton.click();
+    browser.get('/');
 
     await browser.wait(protractor.ExpectedConditions.urlContains('home'));
     //return browser.get('/');
@@ -21,6 +22,9 @@ export class HomePageObject {
   getModuleListItems() {
     return element.all(by.deepCss('.module-list ion-item'));
   }
+  getLogoutButton(){
+    return element(by.deepCss('.logout-button'));
+}
 
 
 

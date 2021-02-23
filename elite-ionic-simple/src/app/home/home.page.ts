@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,10 @@ export class HomePage {
 
   public modules: Object[] = [];
 
-  constructor(private navCtrl: NavController) {};
+  constructor(private navCtrl: NavController, private authService: AuthService) {};
   ngOnInit(){
 
-    
+
 
     this.modules = [
       {id: 1, title: 'Module One', description: 'Test'},
@@ -22,13 +23,16 @@ export class HomePage {
       {id: 4, title: 'Module Four', description: 'Test'},
       {id: 5, title: 'Module Five', description: 'Test'}
     ];
- 
+
 
   };
   openModule(id){
     //console.log(id);
 		this.navCtrl.navigateForward('/module/' + id);
 
-	}
+  }
+  logout(){
+    this.authService.logout();
+}
 
 }

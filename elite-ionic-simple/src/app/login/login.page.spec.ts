@@ -6,6 +6,7 @@ import { NavMock, LoadingControllerMock } from 'mocks/mocks-ionic';
 import { AuthService } from '../services/auth.service';
 import { of } from 'rxjs';
 import { AuthMock } from 'mocks/mocks-app';
+import { FormsModule } from '@angular/forms';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -20,7 +21,7 @@ describe('LoginPage', () => {
         { provide: AuthService, useClass: AuthMock },
 
       ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPage);

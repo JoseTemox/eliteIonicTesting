@@ -2,17 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
+import { NavController } from '@ionic/angular';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class AuthService {
 
-    constructor(public http: HttpClient, public storage: Storage) {
+    constructor(public http: HttpClient, public storage: Storage, private navCtrl: NavController) {
         console.log('Hello AuthProvider Provider');
     }
 
     checkKey(key) {
-
+        this.storage.set('eliteLicenseKey', key);
 
         let body = {
             key: key
@@ -49,5 +52,10 @@ export class AuthService {
         });
 
     }
+    logout(){
+        this.storage.set('eliteLicenseKey', null).then(() => {
+          this.navCtrl.navigateRoot('/login');
+        })
+      }
 
 }

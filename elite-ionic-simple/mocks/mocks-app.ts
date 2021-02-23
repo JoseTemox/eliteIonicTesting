@@ -21,7 +21,8 @@ export class AuthMock {
 
   public checkKey(key: string): any {}
   public reauthenticate() {
-    return new Promise(() => {})
+    return new Promise((resolve,reject) => {})
   }
+  public logout(): any {}
 
 }

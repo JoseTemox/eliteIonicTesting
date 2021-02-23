@@ -35,12 +35,13 @@ export class LoginPage implements OnInit {
       this.loading = overlay;
       this.loading.present();
 
-      this.authProvider.checkKey(this.licenseKey).subscribe((res) => {
+      this.authProvider.checkKey(this.licenseKey)
+      .subscribe((res) => {
+      console.log('aqui');
 
         this.loading.dismiss().then(() => {
           this.navCtrl.navigateRoot('/home');
         });
-
       }, (err) => {
         this.loading.dismiss();
       });

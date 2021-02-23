@@ -1,14 +1,16 @@
 import { HomePageObject } from './home.po';
 import { LessonSelectPageObject } from './lesson-select.po';
-import { browser } from 'protractor';
+import { browser,protractor } from 'protractor';
+import { LoginPageObject } from './login.po';
 
 describe('Home', () => {
 
     let homePage: HomePageObject;
     let lessonSelectPage: LessonSelectPageObject;
+    let loginPage: LoginPageObject;
 
 	beforeEach(async () => {
-		
+
         homePage = new HomePageObject();
         lessonSelectPage = new LessonSelectPageObject();
 		await homePage.navigateTo();
@@ -19,9 +21,9 @@ describe('Home', () => {
         const numItems = await homePage.getModuleListItems().count();
         //console.log(numItems);
         expect(numItems).toBe(5);
-       
 
-    }); 
+
+    });
 
    it('the list of modules should contain the titles of the modules', async () => {
         const text = await homePage.getModuleListItems().first().getText();
@@ -30,20 +32,38 @@ describe('Home', () => {
       });
 
     it('after selecting a specific module, the user should be able to see a list of available lessons', async () => {
-	
+
         let moduleToTest = await homePage.getModuleListItems().first();
         //console.log(moduleToTest);
 
         await moduleToTest.click();
-        
+
         let valor =   await lessonSelectPage.getLessonListItems().count();
         //console.log(valor);
-		expect(valor).toBeGreaterThan(0);
+        expect(valor).toBeGreaterThan(0);
 
-	});
+    });
 
-	
+    it('should be able to log out', () => {
 
-	
+        homePage.getLogoutButton().click();
+
+        browser.wait(protractor.ExpectedConditions.not((protractor.ExpectedConditions.urlContains('home'))));
+        /* Log back in to prevent rest of tests breaking */
+
+        let input = loginPage.getKeyInput();
+        let loginButton = loginPage.getLoginButton();
+
+        input.sendKeys('abcd-egfh-ijkl-mnop');
+
+        loginButton.click();
+
+        browser.wait(protractor.ExpectedConditions.urlContains('home'));
+
+    });
+
+
+
+
 
 });

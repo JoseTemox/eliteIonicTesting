@@ -1,9 +1,14 @@
-import { browser, by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder,protractor } from 'protractor';
+import { HomePageObject } from './home.po';
 
 export class LoginPageObject {
+  homePage = new HomePageObject();
 
-  navigateTo() {
-    browser.get('/');
+  async navigateTo() {
+    //browser.get('/');
+    this.homePage.navigateTo();
+    await this.homePage.getLogoutButton().click();
+    await browser.wait(protractor.ExpectedConditions.not((protractor.ExpectedConditions.urlContains('home'))));
   }
 
   getKeyInput() {

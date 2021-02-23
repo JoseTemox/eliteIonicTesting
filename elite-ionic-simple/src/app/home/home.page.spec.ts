@@ -4,6 +4,8 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { HomePage } from './home.page';
 import { NavController } from '@ionic/angular';
 import { NavMock } from 'mocks/mocks-ionic';
+import { AuthService } from '../services/auth.service';
+import { AuthMock } from 'mocks/mocks-app';
 
 
 describe('HomePage', () => {
@@ -14,9 +16,10 @@ describe('HomePage', () => {
     TestBed.configureTestingModule({
       declarations: [ HomePage ],
       providers: [
-        { provide: NavController, useClass: NavMock }
+        { provide: NavController, useClass: NavMock },
+        { provide: AuthService, useClass: AuthMock },
       ],
- 
+
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
@@ -34,7 +37,7 @@ describe('HomePage', () => {
   it('should have a class member called modules that is an array', () => {
 
     expect(component.modules instanceof Array).toBe(true);
- 
+
   });
   it('the openModule() function should navigate to the LessonListPage', () => {
 
@@ -49,8 +52,19 @@ describe('HomePage', () => {
     expect(navCtrl.navigateForward).toHaveBeenCalledWith('/module/' + testModule.id);
 
   });
+  it('the logout function should call the logout method of the auth provider', () => {
 
-  
+    let authProvider = fixture.debugElement.injector.get(AuthService);
+
+    spyOn(authProvider, 'logout');
+
+    component.logout();
+
+    expect(authProvider.logout).toHaveBeenCalled();
+
+  });
+
+
 
 });
 
