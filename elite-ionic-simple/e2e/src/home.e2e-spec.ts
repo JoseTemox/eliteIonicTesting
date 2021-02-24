@@ -1,15 +1,19 @@
 import { HomePageObject } from './home.po';
 import { LessonSelectPageObject } from './lesson-select.po';
 import { browser,protractor } from 'protractor';
+import { LoginPageObject } from './login.po';
 
 describe('Home', () => {
 
-    let homePage: HomePageObject;
+
+	let homePage: HomePageObject;
+	let loginPage: LoginPageObject;
     let lessonSelectPage: LessonSelectPageObject;
 
 	beforeEach(async () => {
 
         homePage = new HomePageObject();
+		loginPage = new LoginPageObject();
         lessonSelectPage = new LessonSelectPageObject();
 		await homePage.navigateTo();
         await browser.sleep(100);
@@ -17,7 +21,7 @@ describe('Home', () => {
 
 	it('should be able to view a list of modules', async ()  => {
         const numItems = await homePage.getModuleListItems().count();
-        //console.log(numItems);
+        console.log(numItems);
         expect(numItems).toBe(5);
 
 
@@ -41,11 +45,22 @@ describe('Home', () => {
 		expect(valor).toBeGreaterThan(0);
 
     });
-    it('should be able to log out', () => {
+    it('should be able to log out and back in', async () => {
 
-        homePage.getLogoutButton().click();
+        await homePage.getLogoutButton().click();
 
-        browser.wait(protractor.ExpectedConditions.not((protractor.ExpectedConditions.urlContains('home'))));
+        await browser.wait(protractor.ExpectedConditions.not((protractor.ExpectedConditions.urlContains('home'))));
+
+        /* Log back in to prevent rest of tests breaking */
+
+        let input = loginPage.getKeyInput();
+        let loginButton = loginPage.getLoginButton();
+
+        await input.sendKeys('abcd-egfh-ijkl-mnop');
+
+        await loginButton.click();
+
+        await browser.wait(protractor.ExpectedConditions.urlContains('home'));
 
     });
 

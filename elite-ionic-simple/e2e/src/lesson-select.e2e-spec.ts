@@ -6,10 +6,10 @@ describe('Lesson Select', () => {
 
 	let lessonSelectPage: LessonSelectPageObject;
 	let lessonPage: LessonPageObject;
-	
+
 
 	beforeEach(async () => {
-		
+
 		lessonSelectPage = new LessonSelectPageObject();
 		lessonPage = new LessonPageObject();
 		await lessonSelectPage.navigateTo();
@@ -18,7 +18,7 @@ describe('Lesson Select', () => {
 
 	it('the list of lessons should contain the titles of the lessons', async () => {
 		const txtList = await lessonSelectPage.getLessonListItems().first().getText();
-		//console.log(txtList); 	
+		//console.log(txtList);
 		expect(txtList).toContain('lesson 1');
 
 	});
@@ -27,7 +27,7 @@ describe('Lesson Select', () => {
 
 		await lessonSelectPage.getLessonListItems().first().click();
 		const txtLess = await lessonPage.getLessonContent().getText();
-		
+
 		expect(txtLess).toContain('this is the lesson content');
 
 	});

@@ -6,8 +6,8 @@ export class LessonPageObject {
   lessonSelectPage = new LessonSelectPageObject();
 
   async navigateTo() {
-    this.lessonSelectPage.navigateTo();
-    const fist = await this.lessonSelectPage.getLessonListItems().first(); 
+    await this.lessonSelectPage.navigateTo();
+    const fist = await this.lessonSelectPage.getLessonListItems().first();
     return await fist.click();
   }
 
