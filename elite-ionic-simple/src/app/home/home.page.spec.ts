@@ -5,7 +5,8 @@ import { HomePage } from './home.page';
 import { NavController } from '@ionic/angular';
 import { NavMock } from 'mocks/mocks-ionic';
 import { AuthService } from '../services/auth.service';
-import { AuthMock } from 'mocks/mocks-app';
+import { AuthMock, ModulesMock } from 'mocks/mocks-app';
+import { ModulesService } from '../services/modules.service';
 
 
 describe('HomePage', () => {
@@ -17,6 +18,7 @@ describe('HomePage', () => {
       declarations: [ HomePage ],
       providers: [
         { provide: NavController, useClass: NavMock },
+        { provide: ModulesService, useClass: ModulesMock },
         { provide: AuthService, useClass: AuthMock },
       ],
 
@@ -63,6 +65,56 @@ describe('HomePage', () => {
     component.logout();
 
     expect(authProvider.logout).toHaveBeenCalled();
+
+  });
+
+  it('the modules class member should contain 5 modules after ngOnInit has been triggered', () => {
+
+    let moduleProvider = fixture.debugElement.injector.get(ModulesService);
+
+    spyOn(moduleProvider, 'getModules').and.returnValue(
+      [
+        {
+          id:'1',title: 'Module One',
+          description: 'Test',
+          lessons: [
+            {id: '1', title: 'lesson 1', content: 'this is the lesson content'},
+            {id: '2', title: 'lesson 2', content: 'this is the lesson content'}
+          ]
+        },
+        {
+          id:'2',title: 'Module two',
+          description: 'Test',
+          lessons: [
+            {id: '1', title: 'lesson 1', content: 'this is the lesson content'},
+            {id: '2', title: 'lesson 2', content: 'this is the lesson content'}
+          ]
+        },{
+          id:'3',title: 'Module Three',
+          description: 'Test',
+          lessons: [
+            {id: '1', title: 'lesson 1', content: 'this is the lesson content'},
+            {id: '2', title: 'lesson 2', content: 'this is the lesson content'}
+          ]
+        },{
+          id:'4',title: 'Module Four',
+          description: 'Test',
+          lessons: [
+            {id: '1', title: 'lesson 1', content: 'this is the lesson content'},
+            {id: '2', title: 'lesson 2', content: 'this is the lesson content'}
+          ]
+        },{
+          id:'5',title: 'Module Five',
+          description: 'Test',
+          lessons: [
+            {id: '1', title: 'lesson 1', content: 'this is the lesson content'},
+            {id: '2', title: 'lesson 2', content: 'this is the lesson content'}
+          ]
+        },]);
+
+    component.ngOnInit();
+
+    expect(component.modules.length).toBe(5);
 
   });
 
